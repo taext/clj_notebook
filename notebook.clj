@@ -14,7 +14,7 @@
 (defn build-note [body-text tags location]
   (def this-note (->Note body-text tags (str date-now) (str time-now) location))
   (write-to-log this-note)
-  (prn-str this-note)
+  (pr-str this-note)
   )
 
 ; (def my-note (build-note "Today cool things happened..." ["dagbog" "oktober"] "Lejligheden, DK"))
