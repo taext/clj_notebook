@@ -1,6 +1,7 @@
 (ns notebook)
+(require '[clojure.string :as str])
 
-(defrecord Note [body tags date-created time-created location parsed-date])
+(defrecord Note [body tags date-created time-created location])
 
 (defn get-month [my-month]
     (def months {"01" "January" "02" "February" "03" "March" "04" "April" "05" "May" "06" "June" 
@@ -15,16 +16,14 @@
     (def result-string (str (get-month month) " " day "th " year))
     [result-string result-dict])
 
-(def date (get (str/split (str (java.time.LocalDateTime/now)) #"T") 0))
+(def date-now (get (str/split (str (java.time.LocalDateTime/now)) #"T") 0))
+
+(def time-of-day (get (str/split (str (java.time.LocalDateTime/now)) #"T") 1))
 
 (def time-now (get (str/split time-of-day #"\.") 0))
 
-(defn build-note [body-text tags date-created location]
-    (def parsed-date (parse-date date-created))
-    (->Note body-text tags (date) (time) location parsed-date))
+(defn build-note [body-text tags location]
+    (->Note body-text tags (str date-now) (str time-now) location))
 
-(def my-note (build-note "Today cool things happened..." ["dagbog" "oktober"] "20191015" "Lejligheden, DK"))
+(def my-note (build-note "Today cool things happened..." ["dagbog" "oktober"] "Lejligheden, DK"))
 
-
-(defn main [body tags date-created location]
-    (build-note body tags date-created location))
