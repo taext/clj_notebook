@@ -15,16 +15,15 @@
 (defn write-to-log [my-note] (spit "log.clj" (str (pr-str my-note) "\n\n") :append true))
 
 (defn build-note [body-text tags location]
-  (def this-note (->Note body-text tags (str date-now) (str time-now) location))
+  (def this-note ->Note (body-text tags (str date-now) (str time-now) location))
   (write-to-log this-note)
   (prn this-note))
-
-;(def my-note (build-note "Today cool things happened..." ["dagbog" "oktober"] "Lejligheden, DK"))
 
 (defn run-args []
   (let [[body location & tags] *command-line-args*]
      (def my-new-note (build-note body tags location))
-     (pr-str my-new-note)
-     ))
+     (pr-str my-new-note)))
 
-(print (run-args))
+(str (run-args))
+
+;(def my-note (build-note "Today cool things happened..." ["dagbog" "oktober"] "Lejligheden, DK"))
